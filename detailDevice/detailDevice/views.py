@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from detailDevice.detailDevice.logic.device_detail_logic import get_device_by_name
+from .logic.device_detail_logic import get_device_by_name
 
 
 def device_detail(request):
