@@ -7,10 +7,18 @@ from .logic.site_logic import get_sites, create_site
 from django.http import JsonResponse
 
 
-def site_list(request):
+def site_list(request, id):
     sites = get_sites()
     context = list(sites.values('id', 'name'))
-    return JsonResponse(context, safe=False)
+    response = JsonResponse(context, safe=False)
+    for site in sites:
+        if site == id:
+            return True
+    return False
+
+
+    
+    
 
 def site_create(request):
     if request.method == 'POST':
