@@ -9,9 +9,7 @@ from django.http import JsonResponse
 
 def site_list(request):
     sites = get_sites()
-    context = {
-        'site_list': sites
-    }
+    context = list(sites.values('id', 'name'))
     return JsonResponse(context, safe=False)
 
 def site_create(request):
