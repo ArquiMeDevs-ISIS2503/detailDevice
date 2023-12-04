@@ -10,13 +10,13 @@ from django.http import JsonResponse
 def site_list(request, id):
     sites = get_sites()
     context = list(sites.values('id', 'name'))
-    response = JsonResponse(context, safe=False)
+    context = { 'sites': context }
     for site in sites:
-        if site == id:
-            return True
-    return False
-
-
+        if site.id == id:
+            context = { 'site': "True" }  
+    return  JsonResponse(context, safe=False)
+def check_site(request):
+    site_list = get_sites()
     
     
 
