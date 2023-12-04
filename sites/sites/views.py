@@ -4,13 +4,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import SiteForm
 from .logic.site_logic import get_sites, create_site
+from django.http import JsonResponse
+
 
 def site_list(request):
     sites = get_sites()
     context = {
         'site_list': sites
     }
-    return render(request, 'Site/sites.html', context)
+    return JsonResponse(context, safe=False)
 
 def site_create(request):
     if request.method == 'POST':
