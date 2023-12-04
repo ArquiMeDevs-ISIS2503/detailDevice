@@ -1,6 +1,6 @@
 from django.db import models
 
-class Device(models.Model):
+class Site(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):

@@ -4,7 +4,7 @@
 <div class="content">
     <div class="">
         <div class="page-header-title">
-            <h4 class="page-title">Device</h4>
+            <h4 class="page-title">Sites</h4>
             <div style="text-align:right;">
                 <button type="button" class="btn btn-success waves-effect waves-light"
                         onClick=" window.location.href='/sitecreate' " style="text-align:center;">+
@@ -25,16 +25,16 @@
                     <table class="table table-hover">
                         <thead>
                         <tr style="color:#0E2EB0">
-                            <th>Device</th>
+                            <th>Site</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                       
+                        {% for site in site_list %}
                         <tr>
-                            <td> Tabla </td>
+                            <td>{{ site.name }}</td>
                         </tr>
-                     
+                        {% endfor %}
 
                         </tbody>
                     </table>
