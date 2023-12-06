@@ -1,6 +1,8 @@
+import json
+from .models import Site
 from django.shortcuts import render
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .forms import SiteForm
 from .logic.site_logic import get_sites, create_site
@@ -28,17 +30,35 @@ def site_list(request):
 
 def site_create(request):
     if request.method == 'POST':
-        form = SiteForm(request.POST)
-        if form.is_valid():
-            create_site(form)
-            messages.add_message(request, messages.SUCCESS, 'Successfully created site')
-            return HttpResponseRedirect(reverse('sites:siteCreate'))
+        data = request.body.decode('utf-8')
+        data_json = json.loads(data)
+        if check_site_name(data_json):
+            site = Site()
+            site.name = data_json['name']
+            site.save()
+            return HttpResponse("Site created successfully")
         else:
-            print(form.errors)
-    else:
-        form = SiteForm()
+            return HttpResponse("Site name already exists")
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'Site/siteCreate.html', context)
+def check_site_name(data):
+    if 'name' in data:
+        name = data['name']
+        sites = get_sites()
+        for site in sites:
+            if site.name == name:
+                return False
+        return True
+    return False
+
+
+def site_delete_by_id(request, id):
+    if request.method == 'DELETE':
+        sites = get_sites()
+        for site in sites:
+            if site.id == id:
+                site.delete()
+                messages.add_message(request, messages.SUCCESS, 'Successfully deleted site')
+        messages.add_message(request, messages.ERROR, 'Site not found')
+    else:
+        messages.add_message(request, messages.ERROR, 'Invalid request')
+    return HttpResponseRedirect(reverse('sites:siteList'))
