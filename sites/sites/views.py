@@ -7,7 +7,7 @@ from django.urls import reverse
 from .forms import SiteForm
 from .logic.site_logic import get_sites, create_site
 from django.http import JsonResponse
-
+from django.views.decorators.csrf import csrf_exempt
 
 def get_site_by_name(request, name):
     sites = get_sites()
@@ -50,7 +50,7 @@ def check_site_name(data):
         return True
     return False
 
-
+@csrf_exempt
 def site_delete_by_id(request, id):
     if request.method == 'DELETE':
         sites = get_sites()
