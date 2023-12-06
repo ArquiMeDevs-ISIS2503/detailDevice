@@ -9,16 +9,21 @@ from django.http import JsonResponse
 
 def site_list(request, name):
     sites = get_sites()
-    context = {'sites': list(sites.values('id', 'name'))}
+    context = {}
     
     for site in sites:
         if site.name == name:
             context['site'] = {'id': site.id, 'name': site.name}
-            return JsonResponse(context, safe=False)
-    
+            
     # Si no se encuentra la sede, devuelve una respuesta vacía
-    return JsonResponse({}, safe=False)
-    
+    return JsonResponse(context, safe=False)
+
+def site_list(request):
+    sites = get_sites()
+    context = {'sites': list(sites.values('id', 'name'))}
+
+    # Si no se encuentra la sede, devuelve una respuesta vacía
+    return JsonResponse(context, safe=False)
     
 
 def site_create(request):
