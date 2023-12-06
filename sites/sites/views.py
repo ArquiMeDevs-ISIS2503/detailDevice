@@ -7,7 +7,7 @@ from .logic.site_logic import get_sites, create_site
 from django.http import JsonResponse
 
 
-def site_list(request, name):
+def get_site_by_name(request, name):
     sites = get_sites()
     context = {}
     
