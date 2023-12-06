@@ -57,8 +57,6 @@ def site_delete_by_id(request, id):
         for site in sites:
             if site.id == id:
                 site.delete()
-                messages.add_message(request, messages.SUCCESS, 'Successfully deleted site')
-        messages.add_message(request, messages.ERROR, 'Site not found')
-    else:
-        messages.add_message(request, messages.ERROR, 'Invalid request')
-    return HttpResponseRedirect(reverse('sites:siteList'))
+                return HttpResponse("Successfully deleted site")
+        return HttpResponse("Site not found")
+    return HttpResponse("Invalid request")
