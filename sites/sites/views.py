@@ -7,16 +7,17 @@ from .logic.site_logic import get_sites, create_site
 from django.http import JsonResponse
 
 
-def site_list(request, id):
+def site_list(request, name):
     sites = get_sites()
-    context = list(sites.values('id', 'name'))
-    context = { 'sites': context }
+    context = {'sites': list(sites.values('id', 'name'))}
+    
     for site in sites:
-        if site.id == id:
-            context = { 'site': "True" }  
-    return  JsonResponse(context, safe=False)
-def check_site(request):
-    site_list = get_sites()
+        if site.name == name:
+            context['site'] = {'id': site.id, 'name': site.name}
+            return JsonResponse(context, safe=False)
+    
+    # Si no se encuentra la sede, devuelve una respuesta vacía
+    return JsonResponse({}, safe=False)
     
     
 
